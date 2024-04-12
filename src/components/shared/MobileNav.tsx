@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
@@ -19,6 +19,7 @@ import { Button } from '../ui/button';
 
 const MobileNav = () => {
   const pathname = usePathname();
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
 
   return (
     <header className='header'>
@@ -30,7 +31,7 @@ const MobileNav = () => {
         <SignedIn>
           <UserButton afterSignOutUrl='/' />
 
-          <Sheet>
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger>
               <Image src={"/assets/icons/menu.svg"} alt='hamberger-menu' width={32} height={32} className='cursor-pointer' />
             </SheetTrigger>
@@ -51,6 +52,7 @@ const MobileNav = () => {
                       <li
                         key={link.route}
                         className={`${isActive && "gradient-text"} p-18 flex whitespace-nowrap text-dark-700`}
+                        onClick={() => setSheetOpen(false)}
                       >
                         <Link href={link.route} className='sidebar-link cursor-pointer'>
                           <Image
